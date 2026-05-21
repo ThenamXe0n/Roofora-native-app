@@ -26,8 +26,8 @@ export default function FeaturedCard({ property }: { property: Property }) {
             {/* Wrap image separately to control overflow */}
             <View style={{ width: '100%', height: 176, overflow: 'hidden', borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
                 <Image
-                    source={{ uri: property.images?.[0] }}
-                    style={{ width: '100%', height: '100%' }}
+                    source={property.images.length > 0 ? { uri: property?.images?.[0] } : require("@/assets/images/placeholder.webp")}
+                    style={{ width: '100%', height: '100%', borderRadius: 20 }}
                     resizeMode='cover'
                 />
             </View>
@@ -54,7 +54,7 @@ export default function FeaturedCard({ property }: { property: Property }) {
                 </View>
             </View>
             <View style={{ paddingLeft: 12, paddingRight: 8, paddingBottom: 12 }} className='flex-row items-center justify-between' >
-                <Text className='text-blue-400' style={{fontWeight:600,fontSize:16}}>{formatPrice(property.price)}</Text>
+                <Text className='text-blue-400' style={{ fontWeight: 600, fontSize: 16 }}>{formatPrice(property.price)}</Text>
             </View>
         </TouchableOpacity>
     )

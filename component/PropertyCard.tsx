@@ -18,7 +18,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         <TouchableOpacity className="rounded-2xl my-3 justify-between flex-row">
             <View style={{ width: 100, height: 100 }}>
                 <Image
-                    source={{ uri: property?.images?.[0] }}
+                    source={property.images.length > 0 ? { uri: property?.images?.[0] } : require("@/assets/images/placeholder.webp")}
                     style={{ width: '100%', height: '100%', borderRadius: 20 }}
                     resizeMode='cover'
                 />

@@ -119,10 +119,10 @@ export default function HomeScreen() {
                         />
                     </View>
                 </View>}
-                // renderItem={({ item }) => (<View>
-                //     <Text>hi</Text>
-                // </View>
-                // )}
+                renderItem={({ item }) => (<View>
+                    <Text>hi</Text>
+                </View>
+                )}
                 ListEmptyComponent={
                     !loading ? (
                         <View className="items-center py-10">
