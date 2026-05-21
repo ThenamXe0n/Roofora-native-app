@@ -1,4 +1,5 @@
 import FeaturedCard from "@/component/FeaturedCard"
+import PropertyCard from "@/component/PropertyCard"
 import { supabase } from "@/lib/supabase"
 import { Property } from "@/types"
 import { useUser } from "@clerk/expo"
@@ -24,7 +25,9 @@ export default function HomeScreen() {
     const fetchProperties = async () => {
         try {
             let { data: featuredData } = await supabase.from("properties").select("*").eq("is_featured", true).order("created_at", { ascending: false })
+            let { data: recommendedData } = await supabase.from("properties").select("*").eq("is_featured", false).order("created_at", { ascending: false })
             setFeatured(featuredData ?? [])
+            setRecommended(recommendedData ?? [])
             setLoading(false)
         } catch (error) {
             setLoading(false)
@@ -40,7 +43,7 @@ export default function HomeScreen() {
     )
 
     return (
-        <SafeAreaView className="flex-1 bg-gray-100">
+        <SafeAreaView className="flex-1 bg-gray-50">
             <FlatList
                 data={featured}
                 keyExtractor={(item) => item.id}
@@ -63,7 +66,7 @@ export default function HomeScreen() {
                     {/* searchbar  */}
                     <TouchableOpacity
                         onPress={() => router.push("/(root)/(tabs)/search")}
-                        className="mx-5 mb-6 mt-3 flex-row items-center bg-white rounded-2xl px-4 py-3 gap-3"
+                        className="mx-5 mb-4 mt-3 flex-row items-center bg-white rounded-2xl px-4 py-3 gap-3"
                         style={{
                             shadowColor: "#000",
                             shadowOffset: { width: 0, height: 1 },
@@ -83,7 +86,7 @@ export default function HomeScreen() {
                     </TouchableOpacity>
                     {/* featured section  */}
                     <View className="mb-6">
-                        <Text className="font-semibold text-black px-5 py-3">
+                        <Text className="font-semibold text-black text-2xl px-5 ">
                             Featured
                         </Text>
                         {loading ? (
@@ -99,17 +102,27 @@ export default function HomeScreen() {
                                 renderItem={({ item }) => <FeaturedCard property={item} />}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                                contentContainerStyle={{ paddingHorizontal: 20 }}
+                                contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 10 }}
                             />
 
                         )}
                     </View>
                     {/* recommended section  */}
+                    <View className="mb-6 mx-5">
+                        <Text className="text-2xl font-semibold ">Recommended</Text>
+                        <FlatList
+                            data={recommended}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                                <PropertyCard property={item} />
+                            )}
+                        />
+                    </View>
                 </View>}
-                renderItem={({ item }) => (<View>
-                    <Text>hi</Text>
-                </View>
-                )}
+                // renderItem={({ item }) => (<View>
+                //     <Text>hi</Text>
+                // </View>
+                // )}
                 ListEmptyComponent={
                     !loading ? (
                         <View className="items-center py-10">
